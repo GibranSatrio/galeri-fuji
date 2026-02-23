@@ -1,0 +1,1239 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALERI FANS FUJI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* HITAM PREMIUM DENGAN TEKSTUR */
+        body {
+            background: #0c0c0c;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #f0f0f0;
+            background-image: 
+                radial-gradient(circle at 30% 40%, #1a1a1a 0%, #050505 90%),
+                repeating-linear-gradient(45deg, rgba(40,40,40,0.3) 0px, rgba(40,40,40,0.3) 1px, transparent 1px, transparent 6px);
+        }
+
+        /* HALAMAN DEPAN - ELEGAN */
+        .front-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0.5rem 0 2rem 0;
+            border-bottom: 3px solid #333;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .top-bar::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, #888, transparent);
+        }
+
+        .menu-button {
+            background: transparent;
+            border: 2.5px solid #444;
+            color: #d0d0d0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 0.9rem 3rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1.5);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-button:hover {
+            border-color: #aaa;
+            background: #1e1e1e;
+            color: white;
+            box-shadow: 0 0 40px rgba(200,200,200,0.5);
+            transform: scale(1.05) translateY(-3px);
+        }
+
+        .boring-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .boring-header h2 {
+            font-size: 3.8rem;
+            font-weight: 200;
+            letter-spacing: 12px;
+            color: #4a4a4a;
+            text-transform: uppercase;
+        }
+
+        .boring-header p {
+            color: #5f5f5f;
+            margin-top: 0.8rem;
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+
+        /* GRID DEPAN - 16 FOTO */
+        .grid-biasa {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0 4rem 0;
+        }
+
+        .kartu-biasa {
+            background: #131313;
+            border-radius: 24px;
+            border: 1.5px solid #333;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            box-shadow: 0 20px 30px -20px black;
+            cursor: pointer;
+        }
+
+        .kartu-biasa:hover {
+            border-color: #7a7a7a;
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 50px -20px #4a4a4a;
+        }
+
+        .kartu-biasa img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.5s;
+            filter: grayscale(30%) brightness(0.95);
+        }
+
+        .kartu-biasa:hover img {
+            filter: grayscale(0%) brightness(1.05);
+        }
+
+        .kartu-biasa .keterangan {
+            padding: 1rem;
+            text-align: center;
+            color: #aaa;
+            border-top: 1.5px solid #2a2a2a;
+            background: #111;
+            font-size: 0.9rem;
+        }
+
+        /* MODAL PIN UTAMA (8990) */
+        .pin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.98);
+            backdrop-filter: blur(20px);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pin-modal.active {
+            display: flex;
+            animation: explosion 0.6s ease;
+        }
+
+        /* MODAL PIN KEDUA (7788) - UNTUK GWEN */
+        .pin-modal-secondary {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.98);
+            backdrop-filter: blur(20px);
+            z-index: 3500;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pin-modal-secondary.active {
+            display: flex;
+            animation: explosion 0.6s ease;
+        }
+
+        @keyframes explosion {
+            0% { opacity: 0; transform: scale(0.3) rotate(10deg); filter: blur(20px); }
+            100% { opacity: 1; transform: scale(1) rotate(0); filter: blur(0); }
+        }
+
+        .pin-box {
+            background: #0a0a0a;
+            border: 2px solid #6a6a6a;
+            border-radius: 80px;
+            padding: 4rem 3.5rem;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: 0 0 150px black;
+            text-align: center;
+        }
+
+        .pin-box h3 {
+            color: #eee;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            letter-spacing: 12px;
+        }
+
+        .pin-input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 3px solid #666;
+            color: white;
+            font-size: 5rem;
+            padding: 1.2rem;
+            text-align: center;
+            border-radius: 70px;
+            outline: none;
+            font-weight: 600;
+            letter-spacing: 25px;
+            margin-bottom: 3rem;
+            font-family: monospace;
+        }
+
+        .pin-input:focus {
+            border-color: #ccc;
+            box-shadow: 0 0 60px #aaa;
+        }
+
+        .pin-submit {
+            background: transparent;
+            border: 3px solid #888;
+            color: #f0f0f0;
+            font-size: 2rem;
+            padding: 1.2rem 3.5rem;
+            border-radius: 80px;
+            cursor: pointer;
+            transition: 0.4s;
+            font-weight: 600;
+            width: 100%;
+            letter-spacing: 8px;
+        }
+
+        .pin-submit:hover {
+            background: #2a2a2a;
+            border-color: #eee;
+            color: white;
+            box-shadow: 0 0 60px #bbb;
+            transform: translateY(-5px);
+        }
+
+        .pin-error {
+            color: #d88;
+            margin-top: 2rem;
+            font-size: 1.5rem;
+        }
+
+        /* HALAMAN FUJI 18+ */
+        .adult-page {
+            display: none;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+            flex: 1;
+            animation: hellRise 1s ease;
+        }
+
+        @keyframes hellRise {
+            0% { opacity: 0; transform: translateY(100px); filter: blur(10px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        .adult-page.active {
+            display: block;
+        }
+
+        .adult-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid #c14eff;
+            padding-bottom: 2rem;
+            margin-bottom: 3.5rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            padding: 2rem 2.5rem;
+            border-radius: 120px;
+            box-shadow: 0 0 80px #9932ff;
+            position: relative;
+        }
+
+        .adult-header h1 {
+            font-size: 6rem;
+            font-weight: 900;
+            background: linear-gradient(145deg, #ffb3fe, #d06aff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 8px;
+        }
+
+        .badge-18-gede {
+            background: linear-gradient(145deg, #e03080, #b33acf);
+            color: white;
+            font-weight: 900;
+            font-size: 3rem;
+            padding: 0.8rem 3rem;
+            border-radius: 80px;
+            border: 4px solid white;
+            box-shadow: 0 0 70px #ff48d6;
+        }
+
+        .secondary-menu-btn {
+            background: #2a1a3a;
+            border: 3px solid #b07cff;
+            color: #f0ccff;
+            font-size: 1.3rem;
+            padding: 0.8rem 2.5rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .secondary-menu-btn:hover {
+            background: #8f4ed6;
+            color: white;
+            border-color: white;
+            box-shadow: 0 0 50px #d6a6ff;
+            transform: scale(1.05);
+        }
+
+        .back-button {
+            background: #1f1f1f;
+            border: 4px solid #c77aff;
+            color: #f5ddff;
+            font-size: 1.5rem;
+            padding: 1rem 3rem;
+            border-radius: 70px;
+            cursor: pointer;
+            transition: 0.4s;
+            font-weight: 700;
+        }
+
+        .back-button:hover {
+            background: #a256e6;
+            color: white;
+            border-color: white;
+            box-shadow: 0 0 70px #f3abff;
+            transform: translateY(-5px);
+        }
+
+        /* HALAMAN GWEN 18+ */
+        .gwen-page {
+            display: none;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+            flex: 1;
+            animation: gwenRise 1s ease;
+        }
+
+        @keyframes gwenRise {
+            0% { opacity: 0; transform: translateY(100px) scale(0.9); filter: blur(15px) hue-rotate(30deg); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0) hue-rotate(0); }
+        }
+
+        .gwen-page.active {
+            display: block;
+        }
+
+        .gwen-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid #b87aff;
+            padding-bottom: 2rem;
+            margin-bottom: 3.5rem;
+            background: linear-gradient(135deg, #1a1025 0%, #0a0515 100%);
+            padding: 2rem 2.5rem;
+            border-radius: 120px;
+            box-shadow: 0 0 80px #6236b0;
+        }
+
+        .gwen-header h1 {
+            font-size: 6rem;
+            font-weight: 900;
+            background: linear-gradient(145deg, #d9b3ff, #a56aff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 8px;
+        }
+
+        .badge-gwen {
+            background: linear-gradient(145deg, #8030e0, #4a1a8a);
+            color: white;
+            font-weight: 900;
+            font-size: 3rem;
+            padding: 0.8rem 3rem;
+            border-radius: 80px;
+            border: 4px solid white;
+            box-shadow: 0 0 70px #a055ff;
+        }
+
+        .back-from-gwen {
+            background: #1f1f1f;
+            border: 4px solid #b07cff;
+            color: #e5ccff;
+            font-size: 1.5rem;
+            padding: 1rem 3rem;
+            border-radius: 70px;
+            cursor: pointer;
+            transition: 0.4s;
+            font-weight: 700;
+        }
+
+        .back-from-gwen:hover {
+            background: #7a40c9;
+            color: white;
+            border-color: white;
+            box-shadow: 0 0 70px #c7a6ff;
+            transform: translateY(-5px);
+        }
+
+        /* GRID FUJI 18+ */
+        .grid-fuji-18 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        /* GRID GWEN - 4 FOTO */
+        .grid-gwen {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card-18, .card-gwen {
+            background: #121212;
+            border-radius: 50px 25px 50px 25px;
+            border: 3px solid #6d4a99;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            box-shadow: 0 40px 50px -25px black;
+            cursor: pointer;
+        }
+
+        .card-gwen {
+            border-color: #8f5acf;
+        }
+
+        .card-18:hover, .card-gwen:hover {
+            border-color: #f0a2ff;
+            transform: translateY(-25px) scale(1.04);
+            box-shadow: 0 50px 100px -15px #e296ff;
+        }
+
+        .img-area-18, .img-area-gwen {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-bottom: 8px solid #c679ff;
+            overflow: hidden;
+        }
+
+        .img-area-gwen {
+            border-bottom-color: #b576ff;
+        }
+
+        .img-area-18 img, .img-area-gwen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.8s;
+        }
+
+        .card-18:hover .img-area-18 img,
+        .card-gwen:hover .img-area-gwen img {
+            transform: scale(1.1);
+        }
+
+        .corner-18 {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #d42a6a;
+            color: white;
+            font-weight: 900;
+            padding: 0.5rem 2rem;
+            border-radius: 60px;
+            font-size: 1.8rem;
+            border: 3px solid #ffc0d5;
+            box-shadow: 0 0 40px #ff4d7a;
+            z-index: 10;
+            transform: rotate(-5deg);
+        }
+
+        .footer-18, .footer-gwen {
+            padding: 1.5rem 2rem;
+            background: #0f0f0f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 3px solid #895bbf;
+        }
+
+        .footer-gwen {
+            border-top-color: #a070df;
+        }
+
+        .nomor-18, .nomor-gwen {
+            background: #222;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            border: 2px solid #aaa;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .open-btn {
+            background: #2e1d3b;
+            color: #f5ddff;
+            border: 3px solid #e09eff;
+            padding: 0.8rem 2.2rem;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .open-btn:hover {
+            background: #b259ff;
+            color: white;
+            border-color: white;
+            box-shadow: 0 0 40px #ffb5f0;
+        }
+
+        /* MODAL POP-UP FULLSCREEN */
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(25px);
+            z-index: 4000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .fullscreen-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 95%;
+            height: 95%;
+            max-width: 1600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            background: #2a2a2a;
+            color: white;
+            border: 3px solid #aaa;
+            font-size: 2.5rem;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: #d44;
+            border-color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-image-container {
+            width: 100%;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 0 100px rgba(200, 100, 255, 0.5);
+            animation: zoomIn 0.4s ease;
+        }
+
+        @keyframes zoomIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-controls {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .modal-nav {
+            background: #2a2a2a;
+            color: white;
+            border: 3px solid #b86eff;
+            font-size: 2.5rem;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .modal-nav:hover {
+            background: #9f4eff;
+            border-color: white;
+            transform: scale(1.1);
+        }
+
+        .modal-download {
+            background: #2a1d38;
+            color: #f0ccff;
+            border: 4px solid #c77aff;
+            font-size: 1.8rem;
+            padding: 1.2rem 4rem;
+            border-radius: 70px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 700;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .modal-download:hover {
+            background: #b259ff;
+            color: white;
+            border-color: white;
+            box-shadow: 0 0 60px #ffb5f0;
+            transform: translateY(-5px);
+        }
+
+        .modal-counter {
+            color: #ccc;
+            font-size: 1.6rem;
+            background: #1a1a1a;
+            padding: 0.8rem 2.5rem;
+            border-radius: 60px;
+            border: 2px solid #888;
+        }
+
+        /* FOOTER */
+        .foot-note {
+            margin-top: 3rem;
+            text-align: right;
+            color: #5f5f5f;
+            border-top: 2px solid #2a2a2a;
+            padding-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- MODAL PIN UTAMA (8990) -->
+    <div class="pin-modal" id="pinModal">
+        <div class="pin-box">
+            <h3>PORTAL FUJI</h3>
+            <input type="password" id="pinInput" class="pin-input" maxlength="4" inputmode="numeric">
+            <button class="pin-submit" id="submitPin">BUKA</button>
+            <div class="pin-error" id="pinError"></div>
+        </div>
+    </div>
+
+    <!-- MODAL PIN KEDUA (7788) UNTUK GWEN -->
+    <div class="pin-modal-secondary" id="pinModalSecondary">
+        <div class="pin-box">
+            <h3>PORTAL GWEN</h3>
+            <input type="password" id="pinInputSecondary" class="pin-input" maxlength="4" inputmode="numeric">
+            <button class="pin-submit" id="submitPinSecondary">BUKA</button>
+            <div class="pin-error" id="pinErrorSecondary"></div>
+        </div>
+    </div>
+
+    <!-- MODAL FULLSCREEN (POP-UP FOTO) -->
+    <div class="fullscreen-modal" id="fullscreenModal">
+        <div class="modal-content">
+            <div class="modal-close" id="modalClose">×</div>
+            
+            <div class="modal-image-container">
+                <img id="modalImage" class="modal-image" src="" alt="fullscreen">
+            </div>
+            
+            <div class="modal-controls">
+                <div class="modal-nav" id="modalPrev">←</div>
+                <span class="modal-counter" id="modalCounter">1/8</span>
+                <div class="modal-nav" id="modalNext">→</div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <button class="modal-download" id="modalDownloadBtn">
+                    ⬇️ DOWNLOAD FOTO ⬇️
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN DEPAN - 16 FOTO -->
+    <div class="front-page" id="frontPage">
+        <div class="top-bar">
+            <button class="menu-button" id="menuBtn">MENU</button>
+        </div>
+        
+        <div class="boring-header">
+            <h2>GALERI UTAMA</h2>
+            <p>DUA PULUH FOTO KOLEKSI</p>
+        </div>
+
+        <div class="grid-biasa" id="gridBiasa"></div>
+
+        <div class="foot-note">[ konten umum ]</div>
+    </div>
+
+    <!-- HALAMAN FUJI 18+ -->
+    <div class="adult-page" id="adultPage">
+        <div class="adult-header">
+            <h1>FUJI 18+</h1>
+            <div class="badge-18-gede">🔞 DOSA</div>
+            <div style="display: flex; gap: 15px;">
+                <button class="secondary-menu-btn" id="secondaryMenuBtn">MENU GWEN</button>
+                <button class="back-button" id="backToFront">KEMBALI</button>
+            </div>
+        </div>
+
+        <div class="grid-fuji-18" id="grid18"></div>
+
+        <div class="foot-note" style="color:#9a6ac9;">[ 19 foto 18+ · klik foto atau tombol untuk pop-up ]</div>
+    </div>
+
+    <!-- HALAMAN GWEN 18+ - 4 FOTO -->
+    <div class="gwen-page" id="gwenPage">
+        <div class="gwen-header">
+            <h1>GWEN 18+</h1>
+            <div class="badge-gwen">🔞 SPESIAL</div>
+            <button class="back-from-gwen" id="backFromGwen">KEMBALI KE FUJI</button>
+        </div>
+
+        <div class="grid-gwen" id="gridGwen"></div>
+
+        <div class="foot-note" style="color:#aa88ff;">[ 4 foto spesial gwen ]</div>
+    </div>
+
+    <script>
+        (function() {
+            const SECRET_PIN_FUJI = '8990';
+            const SECRET_PIN_GWEN = '7788';
+
+            // ========== 16 FOTO HALAMAN DEPAN ==========
+            const biasaImages = [
+                // 6 foto lama
+                'https://files.catbox.moe/oy8c3p.jpg',
+                'https://files.catbox.moe/397cxb.jpg',
+                'https://files.catbox.moe/qyah1b.jpg',
+                'https://files.catbox.moe/8vdoue.jpg',
+                'https://files.catbox.moe/ow48pn.jpg',
+                'https://files.catbox.moe/vmo0hr.jpg',
+                // 10 foto baru
+                'https://files.catbox.moe/4e47gy.jpg',
+                'https://files.catbox.moe/glk3hg.jpg',
+                'https://files.catbox.moe/vo3rb2.jpg',
+                'https://files.catbox.moe/qb4g7i.jpg',
+                'https://files.catbox.moe/k6za63.jpg',
+                'https://files.catbox.moe/bwa9dy.jpg',
+                'https://files.catbox.moe/hskywp.jpg',
+                'https://files.catbox.moe/moocq7.jpeg',
+                'https://files.catbox.moe/4wt9h4.jpeg',
+                'https://files.catbox.moe/mm8gl9.jpeg',
+                'https://files.catbox.moe/1igmfb.jpeg',
+                'https://files.catbox.moe/1ydaik.jpeg',
+                'https://files.catbox.moe/pt8re4.jpg',
+                'https://files.catbox.moe/m54gra.jpg'
+            ];
+
+            // ========== 19 FOTO 18+ FUJI ==========
+            const adultImages = [
+                'https://files.catbox.moe/wiepoh.jpg',
+                'https://files.catbox.moe/4y6u08.jpg',
+                'https://files.catbox.moe/lhdlyh.jpg',
+                'https://files.catbox.moe/rc5yya.jpg',
+                'https://files.catbox.moe/9tza1i.jpg',
+                'https://files.catbox.moe/a5qdfd.jpg',
+                'https://files.catbox.moe/liw4hp.jpg',
+                'https://files.catbox.moe/u9dfz0.jpg',
+                'https://files.catbox.moe/oq0bkr.jpg',
+                'https://files.catbox.moe/b1cp8n.jpg',
+                'https://files.catbox.moe/io3ca2.jpg',
+                'https://files.catbox.moe/19ia1n.jpg',
+                'https://files.catbox.moe/pt0f4x.jpg',
+                'https://files.catbox.moe/hcy0b1.jpg',
+                'https://files.catbox.moe/ypkyma.jpg',
+                'https://files.catbox.moe/gfzy35.jpg',
+                'https://files.catbox.moe/kk5px7.jpg',
+                'https://files.catbox.moe/d0c62d.jpg',
+                'https://files.catbox.moe/trf7o8.jpg',
+                'https://files.catbox.moe/pvot4d.jpg',
+                'https://files.catbox.moe/humm37.jpg',
+                'https://files.catbox.moe/fbims0.jpg',
+                'https://files.catbox.moe/c347uk.jpg',
+                'https://files.catbox.moe/qkuqac.jpg',
+                'https://files.catbox.moe/m47rsm.jpg',
+                'https://files.catbox.moe/9ao39g.jpg',
+                'https://files.catbox.moe/8yhzbr.jpg'
+            ];
+
+            // ========== 4 FOTO 18+ GWEN ==========
+            const gwenImages = [
+                'https://files.catbox.moe/a79wih.jpg',
+                'https://files.catbox.moe/xi6crs.jpg',
+                'https://files.catbox.moe/ye3e13.jpg',
+                'https://files.catbox.moe/luial2.jpg'
+            ];
+
+            // ELEMEN (tetap sama seperti sebelumnya)
+            const modal = document.getElementById('pinModal');
+            const menuBtn = document.getElementById('menuBtn');
+            const submitPin = document.getElementById('submitPin');
+            const pinInput = document.getElementById('pinInput');
+            const pinError = document.getElementById('pinError');
+            
+            const modalSecondary = document.getElementById('pinModalSecondary');
+            const secondaryMenuBtn = document.getElementById('secondaryMenuBtn');
+            const submitPinSecondary = document.getElementById('submitPinSecondary');
+            const pinInputSecondary = document.getElementById('pinInputSecondary');
+            const pinErrorSecondary = document.getElementById('pinErrorSecondary');
+            
+            const frontPage = document.getElementById('frontPage');
+            const adultPage = document.getElementById('adultPage');
+            const gwenPage = document.getElementById('gwenPage');
+            const backBtn = document.getElementById('backToFront');
+            const backFromGwen = document.getElementById('backFromGwen');
+            
+            const gridBiasa = document.getElementById('gridBiasa');
+            const grid18 = document.getElementById('grid18');
+            const gridGwen = document.getElementById('gridGwen');
+            
+            // ELEMEN FULLSCREEN MODAL
+            const fsModal = document.getElementById('fullscreenModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalClose = document.getElementById('modalClose');
+            const modalPrev = document.getElementById('modalPrev');
+            const modalNext = document.getElementById('modalNext');
+            const modalCounter = document.getElementById('modalCounter');
+            const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+            
+            // STATE FULLSCREEN
+            let currentImages = [];
+            let currentIndex = 0;
+
+            // FUNGSI DOWNLOAD
+            function downloadImage(url, filename) {
+                fetch(url)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const blobUrl = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = blobUrl;
+                        a.download = filename || 'fuji-image.jpg';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(blobUrl);
+                    })
+                    .catch(() => {
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = filename || 'fuji-image.jpg';
+                        a.target = '_blank';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    });
+            }
+
+            // BUKA FULLSCREEN MODAL
+            function openFullscreen(images, index) {
+                currentImages = images;
+                currentIndex = index;
+                updateModalImage();
+                fsModal.classList.add('active');
+            }
+
+            // UPDATE GAMBAR MODAL
+            function updateModalImage() {
+                if (!currentImages.length) return;
+                modalImage.src = currentImages[currentIndex];
+                modalCounter.innerText = `${currentIndex + 1}/${currentImages.length}`;
+            }
+
+            // EVENT NAVIGASI MODAL
+            modalPrev.addEventListener('click', () => {
+                if (currentImages.length) {
+                    currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+                    updateModalImage();
+                }
+            });
+
+            modalNext.addEventListener('click', () => {
+                if (currentImages.length) {
+                    currentIndex = (currentIndex + 1) % currentImages.length;
+                    updateModalImage();
+                }
+            });
+
+            // TUTUP MODAL
+            modalClose.addEventListener('click', () => {
+                fsModal.classList.remove('active');
+            });
+
+            fsModal.addEventListener('click', (e) => {
+                if (e.target === fsModal) {
+                    fsModal.classList.remove('active');
+                }
+            });
+
+            modalDownloadBtn.addEventListener('click', () => {
+                if (currentImages.length) {
+                    const url = currentImages[currentIndex];
+                    const filename = `fuji-${currentIndex + 1}.jpg`;
+                    downloadImage(url, filename);
+                }
+            });
+
+            // KEYBOARD NAVIGATION
+            document.addEventListener('keydown', (e) => {
+                if (!fsModal.classList.contains('active')) return;
+                
+                if (e.key === 'Escape') {
+                    fsModal.classList.remove('active');
+                } else if (e.key === 'ArrowLeft') {
+                    modalPrev.click();
+                } else if (e.key === 'ArrowRight') {
+                    modalNext.click();
+                }
+            });
+
+            // RENDER 16 FOTO HALAMAN DEPAN
+            function renderBiasa() {
+                if (!gridBiasa) return;
+                gridBiasa.innerHTML = '';
+
+                biasaImages.forEach((url, idx) => {
+                    let imgUrl = url;
+                    if (!url || !url.includes('catbox.moe')) {
+                        imgUrl = 'https://via.placeholder.com/600x400/2a2a2a/777777?text=FOTO+' + (idx+1);
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = 'kartu-biasa';
+                    
+                    const img = document.createElement('img');
+                    img.onerror = function() {
+                        this.onerror = null;
+                        this.src = 'https://via.placeholder.com/600x400/2a2a2a/777777?text=GAGAL';
+                    };
+                    img.src = imgUrl;
+                    img.alt = `foto ${idx+1}`;
+
+                    const caption = document.createElement('div');
+                    caption.className = 'keterangan';
+                    caption.innerText = `#${(idx+1).toString().padStart(2,'0')}`;
+
+                    card.appendChild(img);
+                    card.appendChild(caption);
+                    
+                    card.addEventListener('click', () => {
+                        openFullscreen(biasaImages, idx);
+                    });
+                    
+                    gridBiasa.appendChild(card);
+                });
+            }
+
+            // RENDER 19 FOTO 18+ FUJI
+            function renderAdult() {
+                if (!grid18) return;
+                grid18.innerHTML = '';
+
+                const validAdult = adultImages.filter(u => u && u.includes('catbox.moe'));
+                
+                if (validAdult.length === 0) {
+                    grid18.innerHTML = '<div style="grid-column:1/-1; background:#1a1a1a; padding:5rem; text-align:center; border-radius:80px; border:5px dashed #dc9eff; color:#eac9ff; font-size:2.5rem;">ISI ARRAY 18+, BANGSAT!</div>';
+                    return;
+                }
+
+                validAdult.forEach((url, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'card-18';
+
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'img-area-18';
+
+                    const corner = document.createElement('div');
+                    corner.className = 'corner-18';
+                    corner.innerText = '18+';
+                    imgDiv.appendChild(corner);
+
+                    const img = document.createElement('img');
+                    img.onerror = function() {
+                        this.onerror = null;
+                        this.src = 'https://via.placeholder.com/700x500/2a2a2a/e296ff?text=ERR+18';
+                    };
+                    img.src = url;
+                    img.alt = `fuji 18 ${idx+1}`;
+                    imgDiv.appendChild(img);
+
+                    const footer = document.createElement('div');
+                    footer.className = 'footer-18';
+                    
+                    const nomor = document.createElement('span');
+                    nomor.className = 'nomor-18';
+                    nomor.innerText = `#${(idx+1).toString().padStart(2,'0')}`;
+                    
+                    const openBtn = document.createElement('button');
+                    openBtn.className = 'open-btn';
+                    openBtn.innerText = '🔞 BUKA';
+                    
+                    footer.appendChild(nomor);
+                    footer.appendChild(openBtn);
+
+                    card.appendChild(imgDiv);
+                    card.appendChild(footer);
+                    
+                    const openModalHandler = () => {
+                        openFullscreen(validAdult, idx);
+                    };
+                    
+                    card.addEventListener('click', openModalHandler);
+                    openBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openFullscreen(validAdult, idx);
+                    });
+                    
+                    grid18.appendChild(card);
+                });
+            }
+
+            // RENDER 4 FOTO GWEN
+            function renderGwen() {
+                if (!gridGwen) return;
+                gridGwen.innerHTML = '';
+
+                const validGwen = gwenImages.filter(u => u && u.includes('catbox.moe'));
+                
+                if (validGwen.length === 0) {
+                    gridGwen.innerHTML = '<div style="grid-column:1/-1; background:#1a1a1a; padding:5rem; text-align:center; border-radius:80px; border:5px dashed #b07cff; color:#dbb5ff; font-size:2.5rem;">ISI ARRAY GWEN, BANGSAT!</div>';
+                    return;
+                }
+
+                validGwen.forEach((url, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'card-gwen';
+
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'img-area-gwen';
+
+                    const corner = document.createElement('div');
+                    corner.className = 'corner-18';
+                    corner.innerText = '18+';
+                    imgDiv.appendChild(corner);
+
+                    const img = document.createElement('img');
+                    img.onerror = function() {
+                        this.onerror = null;
+                        this.src = 'https://via.placeholder.com/700x500/2a1a35/d194ff?text=ERR+GWEN';
+                    };
+                    img.src = url;
+                    img.alt = `gwen 18 ${idx+1}`;
+                    imgDiv.appendChild(img);
+
+                    const footer = document.createElement('div');
+                    footer.className = 'footer-gwen';
+                    
+                    const nomor = document.createElement('span');
+                    nomor.className = 'nomor-gwen';
+                    nomor.innerText = `#${(idx+1).toString().padStart(2,'0')}`;
+                    
+                    const openBtn = document.createElement('button');
+                    openBtn.className = 'open-btn';
+                    openBtn.innerText = '🔞 BUKA';
+                    
+                    footer.appendChild(nomor);
+                    footer.appendChild(openBtn);
+
+                    card.appendChild(imgDiv);
+                    card.appendChild(footer);
+                    
+                    const openModalHandler = () => {
+                        openFullscreen(validGwen, idx);
+                    };
+                    
+                    card.addEventListener('click', openModalHandler);
+                    openBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openFullscreen(validGwen, idx);
+                    });
+                    
+                    gridGwen.appendChild(card);
+                });
+            }
+
+            // BUKA MODAL PIN FUJI
+            menuBtn.addEventListener('click', () => {
+                modal.classList.add('active');
+                pinInput.value = '';
+                pinError.innerText = '';
+                pinInput.focus();
+            });
+
+            // CEK PIN FUJI
+            function checkPinFuji() {
+                const entered = pinInput.value.trim();
+                if (entered === SECRET_PIN_FUJI) {
+                    modal.classList.remove('active');
+                    frontPage.style.display = 'none';
+                    adultPage.classList.add('active');
+                } else {
+                    pinError.innerText = 'PIN SALAH, GOBLOK!';
+                    pinInput.value = '';
+                }
+            }
+
+            submitPin.addEventListener('click', checkPinFuji);
+            pinInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkPinFuji();
+            });
+
+            // BUKA MODAL PIN GWEN
+            secondaryMenuBtn.addEventListener('click', () => {
+                modalSecondary.classList.add('active');
+                pinInputSecondary.value = '';
+                pinErrorSecondary.innerText = '';
+                pinInputSecondary.focus();
+            });
+
+            // CEK PIN GWEN
+            function checkPinGwen() {
+                const entered = pinInputSecondary.value.trim();
+                if (entered === SECRET_PIN_GWEN) {
+                    modalSecondary.classList.remove('active');
+                    adultPage.classList.remove('active');
+                    gwenPage.classList.add('active');
+                } else {
+                    pinErrorSecondary.innerText = 'PIN GWEN SALAH, BANGSAT!';
+                    pinInputSecondary.value = '';
+                }
+            }
+
+            submitPinSecondary.addEventListener('click', checkPinGwen);
+            pinInputSecondary.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkPinGwen();
+            });
+
+            // TOMBOL KEMBALI
+            backBtn.addEventListener('click', () => {
+                adultPage.classList.remove('active');
+                frontPage.style.display = 'flex';
+            });
+
+            backFromGwen.addEventListener('click', () => {
+                gwenPage.classList.remove('active');
+                adultPage.classList.add('active');
+            });
+
+            // TUTUP MODAL PIN KLIK LUAR
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+
+            modalSecondary.addEventListener('click', (e) => {
+                if (e.target === modalSecondary) {
+                    modalSecondary.classList.remove('active');
+                }
+            });
+
+            // RENDER AWAL
+            renderBiasa();
+            renderAdult();
+            renderGwen();
+
+            // SEMBUNYIKAN HALAMAN
+            adultPage.classList.remove('active');
+            gwenPage.classList.remove('active');
+            frontPage.style.display = 'flex';
+        })();
+    </script>
+</body>
+</html>
